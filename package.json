@@ -1,0 +1,25 @@
+{
+  "name": "budget-backend",
+  "version": "1.0.0",
+  "description": "hello",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daleskiii/budget-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daleskiii/budget-backend/issues"
+  },
+  "homepage": "https://github.com/daleskiii/budget-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}
