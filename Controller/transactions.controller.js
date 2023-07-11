@@ -2,7 +2,7 @@ const express = require("express");
 const route = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const data = require("../Models/budgetData.js");
-
+const { format } = require("date-fns");
 // CRUD routes with handlers
 // get all transactions
 route.get("/", (req, res) => {
@@ -26,25 +26,28 @@ route.get("/:id", (req, res) => {
 });
 // create new transaction.
 route.post("/", (req, res) => {
+  const { item_name, amount, from } = req.body;
+
+  if (!item_name || !amount || !from) {
+    return res.status(400).json({
+      status: false,
+      message: "You cannot create an empty item",
+    });
+  }
+
   const newItem = {
     id: uuidv4(),
-    item_name: req.body.item_name,
-    amount: req.body.amount,
-    date: new Date().toDateString(),
-    from: req.body.from,
+    item_name,
+    amount,
+    date: format(new Date(), "MMMM dd"),
+    from,
   };
 
-  if (!newItem) {
-    res
-      .status(400)
-      .json({ status: false, message: "You cannot create an empty item" });
-  } else {
-    data.push(newItem);
+  data.push(newItem);
 
-    res.status(201).json({ status: true, data: newItem });
-  }
+  res.status(201).json({ status: true, data: newItem });
 });
-// update new transaction
+// update transaction
 route.put("/:id", (req, res) => {
   const { id } = req.params;
   // checking to see if id from parameter is consitentent with the id given in data.
@@ -68,6 +71,8 @@ route.put("/:id", (req, res) => {
 // delete transaction
 route.delete("/:id", (req, res) => {
   const { id } = req.params;
+  console.log("ID:", id);
+  console.log("Data:", data);
 
   const index = data.findIndex((item) => item.id === id);
   if (index === -1) {
